@@ -4006,24 +4006,31 @@
     ]
   },
   "packageFolders": {
-    "/home/tushar/.nuget/packages/": {}
+    "C:\\Users\\amahf\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/tushar/RiderProjects/WebApplication1/WebApplication1/WebApplication1.csproj",
+      "projectUniqueName": "C:\\Users\\amahf\\source\\repos\\Webapp1\\WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "/home/tushar/RiderProjects/WebApplication1/WebApplication1/WebApplication1.csproj",
-      "packagesPath": "/home/tushar/.nuget/packages/",
-      "outputPath": "/home/tushar/RiderProjects/WebApplication1/WebApplication1/obj/",
+      "projectPath": "C:\\Users\\amahf\\source\\repos\\Webapp1\\WebApplication1.csproj",
+      "packagesPath": "C:\\Users\\amahf\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\amahf\\source\\repos\\Webapp1\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/tushar/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\amahf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4041,7 +4048,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -4081,7 +4089,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/tushar/.dotnet/sdk/8.0.406/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
