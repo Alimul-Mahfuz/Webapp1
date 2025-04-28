@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
@@ -5,6 +6,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers;
 
+[Authorize]
 public class ProductController : Controller
 {
     private readonly AppDbContext _context;
@@ -45,7 +47,7 @@ public class ProductController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Product product)
+    public async Task<IActionResult> Create(Product product)
     {
         if (!ModelState.IsValid)
         {
@@ -53,10 +55,35 @@ public class ProductController : Controller
             return View(product);
         }
 
+        // Save uploaded file
+        if (product.ImageFile != null && product.ImageFile.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Generate unique filename
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(product.ImageFile.FileName);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            // Save file to wwwroot/uploads
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await product.ImageFile.CopyToAsync(stream);
+            }
+
+            product.Image = "/uploads/" + fileName;
+        }
+
         _context.Products.Add(product);
-        _context.SaveChanges();
-        return RedirectToAction("Index");
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
     }
+
 
     public IActionResult Edit(int id)
     {
@@ -88,6 +115,36 @@ public class ProductController : Controller
         productToUpdate.Price = product.Price;
         productToUpdate.Description = product.Description;
         productToUpdate.Active = product.Active;
+
+       
+
+        if (product.ImageFile != null && product.ImageFile.Length > 0)
+        {
+            if (!string.IsNullOrEmpty(productToUpdate.Image))
+            {
+                var uploadFile=Path.Combine(Directory.GetCurrentDirectory(),"wwwroot",productToUpdate.Image.TrimStart('/'));
+                if (System.IO.File.Exists(uploadFile))
+                {
+                    System.IO.File.Delete(uploadFile);
+                }
+            }
+        
+            //Uploading new file
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+            
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(product.ImageFile.FileName);
+            var filePath=Path.Combine(uploadsFolder, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            { 
+                product.ImageFile.CopyTo(stream);
+            }
+            productToUpdate.Image="/uploads/" + fileName;
+        }
+        
         _context.Products.Update(productToUpdate);
         _context.SaveChanges();
         TempData["SuccessMessage"] = "Product updated";

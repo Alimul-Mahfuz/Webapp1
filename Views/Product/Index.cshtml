@@ -21,6 +21,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Status</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Category</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -34,6 +35,12 @@
                         <td>@product.Description</td>
                         <td>@(product.Active ? "Active" : "Inactive")</td>
                         <th>@product.Price</th>
+                        <th>
+                            @if (!string.IsNullOrEmpty(product.Image))
+                            {
+                                <img src="@product.Image" width="100px" height="100px" alt="Product Image" class="img-fluid img-thumbnail"/>
+                            }
+                        </th>
                         <th>@product.Category.Name</th>
                         <th><a asp-action="Edit" asp-route-id="@product.Id">Edit</a>&nbsp; &nbsp;<a class="text-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a></th>
                     </tr>
