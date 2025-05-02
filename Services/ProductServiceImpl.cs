@@ -4,19 +4,12 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Services
 {
-    public class ProductServiceImpl : IProductService
+    public class ProductServiceImpl(AppDbContext dbContext) : IProductService
     {
-        private readonly AppDbContext _dbContext;
-
-        public ProductServiceImpl(AppDbContext dbContext)
-        {
-            this._dbContext = dbContext;
-        }
-
         public Paginator<Product> GetPaginatedProductList(int page = 1)
         {
-            var pageSize = 10;
-            var products = this._dbContext.Products.AsQueryable();
+            const int pageSize = 10;
+            var products = dbContext.Products.AsQueryable();
 
             var numberOfProducts = products.Count();
             var totalPage = (int)Math.Ceiling((double)numberOfProducts / (double)pageSize);
@@ -34,25 +27,25 @@ namespace WebApplication1.Services
 
         public Product? GetProductById(int id)
         {
-            return _dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == id);
+            return dbContext.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == id);
         }
 
         public async Task CreateProduct(Product product)
         {
-            _dbContext.Products.Add(product);
-            await _dbContext.SaveChangesAsync();
+            dbContext.Products.Add(product);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateProduct(Product product)
         {
-            _dbContext.Products.Update(product);
-            await _dbContext.SaveChangesAsync();
+            dbContext.Products.Update(product);
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteProduct(Product product)
         {
-            _dbContext.Products.Remove(product);
-            await _dbContext.SaveChangesAsync();
+            dbContext.Products.Remove(product);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

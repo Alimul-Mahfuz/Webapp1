@@ -28,6 +28,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,7 @@
                     <tr>
                         <td>@category.Id</td>
                         <td>@category.Name</td>
+                        <td><a asp-action="Edit" asp-route-id="@category.Id">Edit</a></td>
                     </tr>
                 }
                 </tbody>
